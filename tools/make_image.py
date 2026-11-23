@@ -36,20 +36,26 @@ def font(path, size):
 
 
 def wrap(draw, text, fnt, max_width):
-    """Greedy word wrap using real measured widths."""
-    words = text.split()
+    """Greedy word wrap using real measured widths.
+
+    A newline in the text forces a line break, so a headline can be
+    balanced across lines instead of leaving a one- or two-word
+    orphan on the last line.
+    """
     lines = []
-    current = ""
-    for word in words:
-        trial = word if not current else current + " " + word
-        if draw.textlength(trial, font=fnt) <= max_width:
-            current = trial
-        else:
-            if current:
-                lines.append(current)
-            current = word
-    if current:
-        lines.append(current)
+    for segment in text.split("\n"):
+        words = segment.split()
+        current = ""
+        for word in words:
+            trial = word if not current else current + " " + word
+            if draw.textlength(trial, font=fnt) <= max_width:
+                current = trial
+            else:
+                if current:
+                    lines.append(current)
+                current = word
+        if current:
+            lines.append(current)
     return lines
 
 
@@ -120,7 +126,7 @@ def main():
     y = story_block(
         draw, MARGIN, CONTENT, y,
         "CLIMATE  \u2022  ANTALYA, TURKEY",
-        "Climate talks collapse with no deal at all",
+        "Climate talks collapse\nwith no deal at all",
         "The COP31 summit in Antalya, Turkey, ended on Sunday without "
         "a political agreement, after the EU and others rejected a final "
         "draft that made no mention of fossil fuels.",
