@@ -1,0 +1,1 @@
+{"description":"Classic newspaper front page poster summing up 22 November 2026 world news in one image.","license":"MIT","name":"news-image-20261122","scripts":{"build:image":"python3 tools/make_image.py","start":"node --experimental-strip-types main.ts"},"type":"module","version":"1.0.0"}
